@@ -12,13 +12,15 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"runtime"
 	"strconv"
 	"strings"
 	"time"
 )
 
 func main() {
-	what_make()
+	//what_make()
+	runtimeUse()
 }
 
 // init 比main还早执行
@@ -368,4 +370,9 @@ func writeConn(conn net.Conn, downmsg []byte) {
 func closeConn(conn net.Conn) {
 	time.Sleep(time.Minute)
 	conn.Close() //与客户端断开连接。
+}
+
+// 打印什么系统
+func runtimeUse() {
+	fmt.Println(runtime.GOOS)
 }
