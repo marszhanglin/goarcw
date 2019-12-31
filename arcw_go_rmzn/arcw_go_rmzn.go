@@ -2,14 +2,18 @@ package main
 
 import (
 	"fmt"
+	"net"
+	"os"
 	"regexp"
+	"strings"
 	"time"
 )
 
 // 书籍：go入门指南
 // pdf文件位置：MAC：/arcw/book/go入门指南
 func main() {
-	regexp_repleace()
+	//regexp_repleace()
+	getLocalIp()
 }
 
 // 4.9指针
@@ -155,7 +159,7 @@ func mapsRange() {
 		item = make(map[int]int, 1)
 		item[1] = 3
 	}
-	fmt.Println("Version A: Value of items: %v\n", items2)
+	fmt.Printf("Version A: Value of items: %v\n", items2)
 
 }
 
@@ -202,4 +206,57 @@ func regexp_repleace() {
 	re, _ := regexp.Compile(pat)
 	str := re.ReplaceAllString(searchIn, "##.#")
 	fmt.Println(str)
+}
+
+//接口==========================================来个会吃饭的人
+type DoSomething interface {
+	eat() string
+	sleep() string
+}
+
+// 人类
+type Human struct {
+	name string
+}
+
+// 这个人实现是吃
+func (hm *Human) eat() string {
+	return hm.name + "吃了五斤肉"
+}
+
+// 这个人实现是睡
+func (hm *Human) sleep() string {
+	return hm.name + "吃了五斤肉"
+}
+
+// 来个会吃饭的人
+func hotel(xiaowan DoSomething) {
+	fmt.Print(xiaowan.eat())
+	//fmt.Print(xiaowan.sleep())
+}
+
+//接口==========================================来个会吃饭的人
+
+// ==============================================获取本机ip
+func getLocalIp() (ip string) {
+	addrs, err := net.InterfaceAddrs()
+
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	for _, address := range addrs {
+
+		// 检查ip地址判断是否回环地址
+		if ipnet, ok := address.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
+			if ipnet.IP.To4() != nil {
+				if strings.Contains(ipnet.IP.String(), "192.168") {
+					return ipnet.IP.String()
+				}
+			}
+
+		}
+	}
+	return ""
 }

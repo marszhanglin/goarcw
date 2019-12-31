@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	scanFile("./arcw_google/google.go")
+	scanFile("./arcw_google/demoexit.go")
 
 }
 
@@ -48,7 +48,7 @@ func convertToBin(n int) string {
 }
 
 // 扫描文件
-// scanFile("./arcw_google/google.go")
+// scanFile("./arcw_google/demoexit.go")
 func scanFile(path string) {
 	file, err := os.Open(path)
 	if err != nil {

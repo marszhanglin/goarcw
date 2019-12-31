@@ -1,11 +1,19 @@
 package main
 
-import "fmt"
+import (
+	"github.com/robfig/cron"
+	"log"
+)
 
 func main() {
-	fmt.Println(111)
-}
+	i := 0
+	c := cron.New(cron.WithSeconds())
+	spec := "*/1 * * * * *"
+	c.AddFunc(spec, func() {
+		i++
+		log.Println("cron running:", i)
+	})
+	c.Start()
 
-func init() {
-	fmt.Println("-----------------init-----------------")
+	select {}
 }
